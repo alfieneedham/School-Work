@@ -1,8 +1,8 @@
 from datetime import date
 
-users = []
-standardActions = ["Change name", "Display balance", "Deposit", "Display info"]
-goldActions = ["Change name", "Display balance", "Deposit", "Display info", "Add interest", "Withdraw"]
+users = {}
+standardActions = ["1. Change name", "2. Display balance", "3. Deposit", "4. Display info", ""]
+goldActions = ["1. Change name", "2. Display balance", "3. Deposit", "4. Display info", "5. Add interest", "6. Withdraw", ""]
 
 class BankAccount:   
     def __init__(self, name, address, balance):
@@ -11,6 +11,7 @@ class BankAccount:
         self.__balance = balance   
         self.__type = "Standard"   
     def change_name(self, newName):
+        users[self.__name] = newName
         self.__name = newName       
     def get_current_balance(self):
         print(self.__balance)   
@@ -48,9 +49,7 @@ class GoldBankAccount(BankAccount):
 def intialise_accounts():               
     continueInitialiseAccounts = "y"
     while continueInitialiseAccounts == "y":       
-        name = input("Name: ")
-        name = name.title()
-        users.append(name)
+        name = input("Name: ").title()
         address = input("Address: ")
         balance = input("Deposit: ")   
         if int(balance) >= 500:
@@ -60,36 +59,41 @@ def intialise_accounts():
         if accountType.lower() == "gold":       
             interest = input("Interest: ")
             currentDate = date.today()     
-            name = GoldBankAccount(name, address, balance, interest, currentDate)     
+            users[name] = GoldBankAccount(name, address, balance, interest, currentDate)     
         else:     
-            name = BankAccount(name, address, balance)      
+            users[name] = BankAccount(name, address, balance)      
             
         print("")
         print("The details of this account are:")            
-        name.display_account_details()
+        users[name].display_account_details()
         print("")    
-        continueInitialiseAccounts = input("Do you wish to add another account? (y/n) ")
+        continueInitialiseAccounts = input("Do you wish to add another account? (y/n) ").lower()
+        print("")
         
     
         
 intialise_accounts()
-    
-continuePerformActions = "y"
-while continuePerformActions == "y":
-    
+       
+continuePerformActions = input("Do you wish to perform actions on an account? (y/n) ").lower()
+while continuePerformActions == "y":    
     print("Account names are listed here:")   
-    for index in range(len(users)):
-        print(users[index])       
+    for index in users:
+        print(index)      
     account = input("Which account do you want to access? ").title()
-    print(account)
-    
-    print(account.get_account_type())
-    
+    print("")   
+    accountType = (users[account].get_account_type())  
     if accountType == "standard":
         for index in range(len(standardActions)):
             print(standardActions[index])
     else:
         for index in range(len(goldActions)):
             print(goldActions[index])
-        
-    continuePerformActions = input("Do you wish to perform another action? (y/n) ")
+            
+    action = input("Enter the action you want to perform (enter the nunmerical value) ")
+    
+    if action == "1":
+        newName = input("Enter the new name: ")
+        users[account].change_name(newName)
+            
+                  
+    continuePerformActions = input("Do you wish to perform another action? (y/n) ").lower()
