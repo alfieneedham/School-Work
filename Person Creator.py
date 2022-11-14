@@ -3,7 +3,7 @@ for i in range(3):
 
 class Person:
     
-  _ID = 1
+    _ID = 1
 
     def __init__(self, name, address, age):
         self.__name = name
@@ -44,6 +44,9 @@ class Person:
     def show_person_name(self):
         print(self.__name)
         print("")
+        
+    def get_person_id(self):
+        return(self.__ID)
 
 
 
@@ -78,7 +81,7 @@ class GroupOfPersons:
     def display_single_person_details(self):
         person = input("Please enter persons name: ").title()
         print("")
-        self.dictionaryOfPersons[person].show_person_details()
+        self.__dictionaryOfPersons[person].show_person_details()
         print("")
         
     def display_all_persons(self):
@@ -89,33 +92,31 @@ class GroupOfPersons:
         
     def edit_details(self):
         person = input("Enter person to edit: ").title()
-        personsObjects[person].edit_person_details()
+        self.__dictionaryOfPersons[person].edit_person_details()
+        print("")
         
     def find_person_id(self):
-        personID = -1
-        person = input("Enter name to find: ").title()
-        for index in range(len(personsList)):
-            if personsList[index] == person:
-                personID = index
-        print("")
-        if personID == -1:
+        try:
+            person = input("Enter name to find: ").title()
+            personID = (self.__dictionaryOfPersons[person].get_person_id())
+            print("The ID is: " + str(personID))
+        except:
             print("Person not found.")
-        else:
-            print("ID of", person, "is", str(personID))       
-        print("") 
-        
-    def find_object_with_id(self):
-        idOfPersonToFind = int(input("Enter the ID of the person: "))
-        personToFind = personsList[idOfPersonToFind]
         print("")
-        return (personToFind)
 
-    def display_single_persons_details_using_id(self, personID):
-        personsObjects[personID].show_person_details()
+    def display_single_persons_details_using_id(self):
+        idOfPerson = int(input("Enter ID: "))
+        for index in self.__dictionaryOfPersons:
+            if self.__dictionaryOfPersons[index].get_person_id() == idOfPerson:
+                self.__dictionaryOfPersons[index].show_person_details()
         print("")
         
-    def edit_single_persons_details_using_id(self, personID):
-        personsObjects[personID].edit_person_details()
+        
+    def edit_single_persons_details_using_id(self):
+        idOfPerson = int(input("Enter ID: "))
+        for index in self.__dictionaryOfPersons:
+            if self.__dictionaryOfPersons[index].get_person_id() == idOfPerson:
+                self.__dictionaryOfPersons[index].edit_person_details()
         print("")
         
 def display_options():
@@ -158,13 +159,11 @@ def main():
             mainGroup.display_all_persons_details()
             mainGroup.edit_details()
         if option == "7":
-            print(str(mainGroup.find_person_id()))
+            mainGroup.find_person_id()
         if option == "8":
-            mainGroup.personID = find_object_with_id()
-            mainGroup.display_single_persons_details_using_id(personID)
+            mainGroup.display_single_persons_details_using_id()
         if option == "9":
-            mainGroup.personID = find_object_with_id()
-            mainGroup.edit_single_persons_details_using_id(personID)
+            mainGroup.edit_single_persons_details_using_id()
 
 mainGroup = GroupOfPersons()
 main()
