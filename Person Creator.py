@@ -48,6 +48,9 @@ class Person:
     def get_person_id(self):
         return(self.__ID)
 
+    def get_person_name(self):
+        return(self.__name)
+
 
 
 class GroupOfPersons:
@@ -96,11 +99,13 @@ class GroupOfPersons:
         print("")
         
     def find_person_id(self):
-        try:
-            person = input("Enter name to find: ").title()
-            personID = (self.__dictionaryOfPersons[person].get_person_id())
-            print("The ID is: " + str(personID))
-        except:
+        personFound = False
+        person = input("Enter name to find: ").title()
+        for index in self.__dictionaryOfPersons:
+            if self.__dictionaryOfPersons[index].get_person_name() == person:
+                print("The ID is: " + str(self.__dictionaryOfPersons[index].get_person_id()))
+                personFound = True
+        if personFound == False:
             print("Person not found.")
         print("")
 
@@ -109,8 +114,7 @@ class GroupOfPersons:
         for index in self.__dictionaryOfPersons:
             if self.__dictionaryOfPersons[index].get_person_id() == idOfPerson:
                 self.__dictionaryOfPersons[index].show_person_details()
-        print("")
-        
+        print("")       
         
     def edit_single_persons_details_using_id(self):
         idOfPerson = int(input("Enter ID: "))
@@ -132,9 +136,7 @@ def display_options():
     print("9. Edit details of a person by ID.")
     print("10. Exit program.")
     print("")
-
-       
-    
+   
 def main():
     option = "0"
     while option != "10":
