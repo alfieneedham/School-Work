@@ -29,7 +29,6 @@ allButtons = []
 
 def iterate_turn(delta):
     currentSequence.append(random.choice(allButtons))
-    print(currentSequence)
     display_sequence()
     
 def game_lost():
@@ -42,8 +41,7 @@ def handle_click(instance):
 def display_sequence():
     for button in currentSequence:
         button.display_and_hide()
-        print("hi")
-    
+        print("hi")   
 
 class cell(BoxLayout):
     def __init__(self, buttonID):
@@ -107,6 +105,10 @@ class Application(App):
             for y in range(columnSize):
                 layout.add_widget(cell(buttonid))
                 buttonid += 1
+                
+        self.iterateButton = Button(text = "iterate")
+        self.iterateButton.bind(on_press = iterate_turn)
+        layout.add_widget(self.iterateButton)
         return layout
     
 if __name__ == "__main__":     
