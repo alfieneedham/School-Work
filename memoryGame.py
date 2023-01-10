@@ -21,13 +21,14 @@ turnsInSequence = numTurnsInSequence[difficulty]
 
 userCanClick = True
 
+sequenceOfButtons = []
 currentSequence = []
 currentUserSequence = []
 
 allButtons = []
 
-def iterate_turn():
-    currentSequence.append(random.randrange(1, columnSize**2 + 1))
+def iterate_turn(delta):
+    currentSequence.append(random.choice(allButtons))
     print(currentSequence)
     display_sequence()
     
@@ -39,7 +40,7 @@ def handle_click(instance):
         instance.parent.button_has_been_clicked()
         
 def display_sequence():
-    for button in allButtons:
+    for button in currentSequence:
         button.display_and_hide()
         print("hi")
     
@@ -84,25 +85,22 @@ class cell(BoxLayout):
         currentUserSequence.append(self.buttonID)
         Clock.schedule_once(self.display_button, 1)
         self.display_image()
-        print(currentSequence)
-        print(currentUserSequence)
-        if len(currentUserSequence) == len(currentSequence):
-            print(currentSequence)
-            print(currentUserSequence)
-            if currentUserSequence == currentSequence:
-                print("hi")
-                for x in range(columnSize):
-                    for y in (columnSize):
-                        self.display_correct
-                numTurnsInSequence = iterate_turn(numTurnsInSequence)
-            else:
-                game_lost()
-        
+#        if len(currentUserSequence) == len(currentSequence):
+#            if currentUserSequence == currentSequence:
+#                print("hi")
+#                for x in range(columnSize):
+#                    for y in (columnSize):
+#                        self.display_correct
+#                numTurnsInSequence = iterate_turn(numTurnsInSequence)
+ #           else:
+#                game_lost()       
 
        
         
 class Application(App):
     def build(self):
+        Clock.schedule_once(iterate_turn, 1)
+        #iterate_turn() 
         buttonid = 1
         layout = GridLayout(cols = columnSize)
         for x in range(columnSize):
@@ -110,7 +108,6 @@ class Application(App):
                 layout.add_widget(cell(buttonid))
                 buttonid += 1
         return layout
-    iterate_turn() 
     
 if __name__ == "__main__":     
     myApp = Application()
