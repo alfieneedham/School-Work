@@ -13,15 +13,39 @@ def obtain_num_in_numerals():
     return(numInNumerals)
     
 # * Finds the largest numeral smaller than the inputted denary number:
-def find_position_of_largest_numeral(denaryNum):
-
+def find_num_in_denary(numeralNum):
+    
+    listOfNumerals = []
+    for index in range(len(numeralNum)):
+        listOfNumerals.append(numeralNum[index])
+        
+    total = 0
+    while True:
+        
+        if len(listOfNumerals) >= 2:
+            if dictOfNumerals[listOfNumerals[1]] > dictOfNumerals[listOfNumerals[0]]:
+                total += (dictOfNumerals[listOfNumerals[1]] - dictOfNumerals[listOfNumerals[0]])
+                del listOfNumerals[0]
+                del listOfNumerals[0]
+                
+            else:
+                total += dictOfNumerals[listOfNumerals[0]]
+                del listOfNumerals[0]
+    
+        elif len(listOfNumerals) == 1:
+            total += dictOfNumerals[listOfNumerals[0]]
+            del listOfNumerals[0]
+            
+        else:
+            return(total)
  
 # * Outputs the Roman Numeral:       
 def output_the_numeral(numeral):
-    print("This number in Roman Numerals is:", numeral)
-  
+    print("This number in denary is:", numeral)
   
   
   
 if __name__ == "__main__":
     numberInRomanNumerals = obtain_num_in_numerals()
+    numberInDenary = find_num_in_denary(numberInRomanNumerals)
+    output_the_numeral(numberInDenary)

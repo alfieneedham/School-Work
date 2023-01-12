@@ -5,11 +5,12 @@ def obtain_denary_num():
     while True:
         try:
             denaryNum = int(input("Enter the number in Roman Numerals: "))
-            return(denaryNum)
+            if denaryNum > 0:
+                return(denaryNum)
         except:
             pass
     
-# * Finds the largest numeral smaller than the inputted denary number:
+# * Finds the number in Roman Numerals:
 def find_largest_numeral(denaryNum):
     numeralNum = ""
     while True:   
@@ -21,15 +22,13 @@ def find_largest_numeral(denaryNum):
                 denaryNum -= dictOfNumerals[numeral]
                 numeralNum += numeral
                 break
-
  
 # * Outputs the Roman Numeral:       
 def output_the_numeral(numeral):
     print("This number in Roman Numerals is:", numeral)
-  
-  
-  
-  
+    
+    
+    
 if __name__ == "__main__":
     numInDenary = obtain_denary_num()
     numInNumerals = find_largest_numeral(numInDenary)
