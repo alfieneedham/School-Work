@@ -28,7 +28,9 @@ currentUserSequence = []
 allButtons = []
 
 def iterate_turn(delta):
-    currentSequence.append(random.choice(allButtons))
+    buttonToAdd = random.choice(allButtons)
+    currentSequence.append(buttonToAdd)
+    allButtons.remove(buttonToAdd)
     display_sequence()
     
 def game_lost():
