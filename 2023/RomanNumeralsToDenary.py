@@ -12,7 +12,7 @@ def obtain_num_in_numerals():
                     obtainAnInput = True
     return(numInNumerals)
     
-# * Finds the largest numeral smaller than the inputted denary number:
+# * converts the Roman Numerals to denary:
 def find_num_in_denary(numeralNum):
     
     listOfNumerals = []
@@ -42,9 +42,7 @@ def find_num_in_denary(numeralNum):
 # * Outputs the Roman Numeral:       
 def output_the_numeral(numeral):
     print("This number in denary is:", numeral)
-  
-  
-  
+   
 if __name__ == "__main__":
     numberInRomanNumerals = obtain_num_in_numerals()
     numberInDenary = find_num_in_denary(numberInRomanNumerals)

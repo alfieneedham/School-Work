@@ -7,7 +7,6 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
 from kivy.clock import Clock
-import time
 import random
 
 numImages = 7
