@@ -10,41 +10,57 @@ from kivy.clock import Clock
 import time
 import random
 
-numImages = 3
+numImages = 7
 difficulty = input("Choose difficulty (easy/medium/hard): ")
-displayTimes = {"easy": 3, "medium": 2, "hard": 1}
-columnSizes = {"easy": 3, "medium": 4, "hard": 5}
-numTurnsInSequence = {"easy": 3, "medium": 5, "hard": 7}
+displayTimes = {"easy": 1, "medium": 0.75, "hard": 0.5, "supereasy": 0}
+columnSizes = {"easy": 3, "medium": 5, "hard": 7, "supereasy": 25}
 displayTime = displayTimes[difficulty]
 columnSize = columnSizes[difficulty]
-turnsInSequence = numTurnsInSequence[difficulty]
-
 userCanClick = True
-
 sequenceOfButtons = []
 currentSequence = []
 currentUserSequence = []
-
 allButtons = []
 
 def iterate_turn(delta):
+    global userCanClick
+    global currentUserSequence
+    userCanClick = False
     buttonToAdd = random.choice(allButtons)
-    currentSequence.append(buttonToAdd)
+    currentSequence.append(buttonToAdd.buttonID)
+    sequenceOfButtons.append(buttonToAdd)
     allButtons.remove(buttonToAdd)
+    currentUserSequence = []
     display_sequence()
     
-def game_lost():
-    print("hi")
+def game_over(delta):
+    print(str(1/0))
+    
+def check_sequence(delta):
+    if currentUserSequence == currentSequence:
+        for button in sequenceOfButtons:
+            button.display_correct()
+        if len(currentSequence) == columnSize ** 2:
+            Clock.schedule_once(game_over, 1)
+        else:
+            Clock.schedule_once(iterate_turn, 1.5)
+    else:
+        for button in sequenceOfButtons:
+            button.display_incorrect()
     
 def handle_click(instance):
+    global userCanClick
     if userCanClick == True:
         instance.parent.button_has_been_clicked()
         
 def display_sequence():
-    for button in currentSequence:
-        button.display_and_hide()
-        print("hi")   
-
+    global userCanClick
+    waitTime = 0
+    for button in sequenceOfButtons:
+        Clock.schedule_once(button.display_and_hide, waitTime)
+        waitTime += displayTime   
+    userCanClick = True
+        
 class cell(BoxLayout):
     def __init__(self, buttonID):
         super().__init__()
@@ -52,13 +68,13 @@ class cell(BoxLayout):
         imageLocation = "buttons/button{0}.png".format(random.randrange(1, numImages + 1))
         self.imageDisplay = Image(source = imageLocation)
         self.buttonDisplay = Button()
-        self.incorrectImage = Image(source = "buttons/button1.png")
-        self.correctImage = Image(source = "buttons/button3.png")
+        self.incorrectImage = Image(source = "buttons/buttonIncorrect.png")
+        self.correctImage = Image(source = "buttons/buttonCorrect.png")
         self.buttonDisplay.bind(on_press = handle_click)
         self.add_widget(self.buttonDisplay)
         allButtons.append(self)
         
-    def display_and_hide(self):
+    def display_and_hide(self, delta):
         self.remove_widget(self.buttonDisplay)
         self.add_widget(self.imageDisplay)
         Clock.schedule_once(self.display_button, displayTime)
@@ -69,12 +85,14 @@ class cell(BoxLayout):
         
     def display_button(self, delta):
         self.remove_widget(self.imageDisplay)
+        self.remove_widget(self.correctImage)
+        self.remove_widget(self.incorrectImage)
         self.add_widget(self.buttonDisplay)
         
     def display_incorrect(self):
         self.remove_widget(self.buttonDisplay)
         self.add_widget(self.incorrectImage)
-        Clock.schedule_once(game_lost, 1)
+        Clock.schedule_once(game_over, 1)
         
     def display_correct(self):
         self.remove_widget(self.buttonDisplay)
@@ -82,35 +100,23 @@ class cell(BoxLayout):
         Clock.schedule_once(self.display_button, 1)
         
     def button_has_been_clicked(self):
-        currentUserSequence.append(self.buttonID)
-        Clock.schedule_once(self.display_button, 1)
-        self.display_image()
-#        if len(currentUserSequence) == len(currentSequence):
-#            if currentUserSequence == currentSequence:
-#                print("hi")
-#                for x in range(columnSize):
-#                    for y in (columnSize):
-#                        self.display_correct
-#                numTurnsInSequence = iterate_turn(numTurnsInSequence)
- #           else:
-#                game_lost()       
-
-       
+        global userCanClick
+        if userCanClick == True:
+            currentUserSequence.append(self.buttonID)
+            Clock.schedule_once(self.display_button, 0.1)
+            self.display_image()
+            if len(currentUserSequence) == len(currentSequence):
+                Clock.schedule_once(check_sequence, 0.5)
         
 class Application(App):
     def build(self):
-        Clock.schedule_once(iterate_turn, 1)
-        #iterate_turn() 
+        Clock.schedule_once(iterate_turn, 3)
         buttonid = 1
         layout = GridLayout(cols = columnSize)
         for x in range(columnSize):
             for y in range(columnSize):
                 layout.add_widget(cell(buttonid))
-                buttonid += 1
-                
-        self.iterateButton = Button(text = "iterate")
-        self.iterateButton.bind(on_press = iterate_turn)
-        layout.add_widget(self.iterateButton)
+                buttonid += 1        
         return layout
     
 if __name__ == "__main__":     
