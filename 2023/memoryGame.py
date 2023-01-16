@@ -22,9 +22,7 @@ currentUserSequence = []
 allButtons = []
 
 def iterate_turn(delta):
-    global userCanClick
     global currentUserSequence
-    userCanClick = False
     buttonToAdd = random.choice(allButtons)
     currentSequence.append(buttonToAdd.buttonID)
     sequenceOfButtons.append(buttonToAdd)
@@ -53,11 +51,14 @@ def handle_click(instance):
         instance.parent.button_has_been_clicked()
         
 def display_sequence():
-    global userCanClick
     waitTime = 0
     for button in sequenceOfButtons:
         Clock.schedule_once(button.display_and_hide, waitTime)
         waitTime += displayTime   
+    Clock.schedule_once(reset_user_click, waitTime)
+
+def reset_user_click(delta):
+    global userCanClick
     userCanClick = True
         
 class cell(BoxLayout):
@@ -100,12 +101,12 @@ class cell(BoxLayout):
         
     def button_has_been_clicked(self):
         global userCanClick
-        if userCanClick == True:
-            currentUserSequence.append(self.buttonID)
-            Clock.schedule_once(self.display_button, 0.1)
-            self.display_image()
-            if len(currentUserSequence) == len(currentSequence):
-                Clock.schedule_once(check_sequence, 0.5)
+        currentUserSequence.append(self.buttonID)
+        Clock.schedule_once(self.display_button, 0.1)
+        self.display_image()
+        if len(currentUserSequence) == len(currentSequence):
+            userCanClick = False
+            Clock.schedule_once(check_sequence, 0.5)
         
 class Application(App):
     def build(self):
