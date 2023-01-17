@@ -13,29 +13,23 @@ def obtain_num_in_numerals():
     return(numInNumerals)
     
 # * converts the Roman Numerals to denary:
-def find_num_in_denary(numeralNum):
-    
+def find_num_in_denary(numeralNum):    
     listOfNumerals = []
     for index in range(len(numeralNum)):
-        listOfNumerals.append(numeralNum[index])
-        
+        listOfNumerals.append(numeralNum[index])      
     total = 0
     while True:
-        
         if len(listOfNumerals) >= 2:
             if dictOfNumerals[listOfNumerals[1]] > dictOfNumerals[listOfNumerals[0]]:
                 total += (dictOfNumerals[listOfNumerals[1]] - dictOfNumerals[listOfNumerals[0]])
                 del listOfNumerals[0]
-                del listOfNumerals[0]
-                
+                del listOfNumerals[0]               
             else:
                 total += dictOfNumerals[listOfNumerals[0]]
-                del listOfNumerals[0]
-    
+                del listOfNumerals[0]    
         elif len(listOfNumerals) == 1:
             total += dictOfNumerals[listOfNumerals[0]]
-            del listOfNumerals[0]
-            
+            del listOfNumerals[0]            
         else:
             return(total)
  

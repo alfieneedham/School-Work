@@ -4,14 +4,14 @@ dictOfNumerals = {"M": 1000, "CM": 900, "D": 500, "CD": 400, "C": 100, "XC": 90,
 def obtain_denary_num():   
     while True:
         try:
-            denaryNum = int(input("Enter the number in Roman Numerals: "))
+            denaryNum = int(input("Enter the number in denary: "))
             if denaryNum > 0:
                 return(denaryNum)
         except:
             pass
     
 # * Finds the number in Roman Numerals:
-def find_largest_numeral(denaryNum):
+def find_numeral(denaryNum):
     numeralNum = ""
     while True:   
         for numeral in dictOfNumerals:
@@ -29,5 +29,5 @@ def output_the_numeral(numeral):
        
 if __name__ == "__main__":
     numInDenary = obtain_denary_num()
-    numInNumerals = find_largest_numeral(numInDenary)
+    numInNumerals = find_numeral(numInDenary)
     output_the_numeral(numInNumerals)
