@@ -10,7 +10,7 @@ class PongGame(Widget):
 
     def serve_ball(self):
         self.ball.center = self.center
-        self.ball.velocity = Vector(40, 0).rotate(randint(0, 360))
+        self.ball.velocity = Vector(4, 0).rotate(randint(0, 360))
 
     def update(self, dt):
         self.ball.move()
@@ -23,6 +23,8 @@ class PongGame(Widget):
 class PongBall(Widget):
     velocity_x = NumericProperty(0)
     velocity_y = NumericProperty(0)
+    pos_x = NumericProperty(0)
+    pos_y = NumericProperty(0)
     # * Creates a reference to both velocities so it is more easily accesible.
     velocity = ReferenceListProperty(velocity_x, velocity_y)
 
@@ -33,7 +35,7 @@ class PongApp(App):
     def build(self):
         game = PongGame()
         game.serve_ball()
-        Clock.schedule_interval(game.update, 1.0/60.0)
+        Clock.schedule_interval(game.update, 1.0 / 60.0)
         return(PongGame())
 
 
