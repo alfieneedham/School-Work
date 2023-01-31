@@ -6,7 +6,7 @@ from kivy.clock import Clock
 from kivy.core.window import Window
 from random import randint, choice
 from math import sqrt
-from win32api import GetKeyState
+#from win32api import GetKeyState
 # pip install pywin32
 
 class PongPaddle(Widget):    
@@ -24,8 +24,8 @@ class PongPaddle(Widget):
                 vel = bounced
             ball.velocity = vel.x, vel.y + (offset * 1.75)
             
-    def move_paddle(self, direction):
-            self.y += (7 * direction)
+#    def move_paddle(self, direction):
+#            self.y += (7 * direction)
             
 class PongBall(Widget):
     velocity_x = NumericProperty(0)
@@ -56,17 +56,17 @@ class PongGame(Widget):
         self.player2.bounce_ball(self.ball)
         
         # W:
-        if GetKeyState(0x57) < 0:
-            self.player1.move_paddle(1)
+#        if GetKeyState(0x57) < 0:
+#            self.player1.move_paddle(1)
         # S:
-        if GetKeyState(0x53) < 0:
-            self.player1.move_paddle(-1)
+#        if GetKeyState(0x53) < 0:
+#            self.player1.move_paddle(-1)
         # Up:
-        if GetKeyState(0x26) < 0:
-            self.player2.move_paddle(1)
+#        if GetKeyState(0x26) < 0:
+#            self.player2.move_paddle(1)
         # Down:
-        if GetKeyState(0x28) < 0:
-            self.player2.move_paddle(-1)
+#        if GetKeyState(0x28) < 0:
+#            self.player2.move_paddle(-1)
         
         if (self.ball.y < self.y) or (self.ball.top > self.top):
             self.ball.velocity_y *= -1
@@ -98,8 +98,6 @@ class PongApp(App):
         game.serve_ball()
         Clock.schedule_interval(game.update, 1.0 / 60.0)
         return game
-
-
 
 if __name__ == "__main__":
     PongApp().run()
