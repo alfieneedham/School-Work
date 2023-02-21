@@ -10,18 +10,33 @@ class Marble(Widget):
     velocity_y = NumericProperty(0)
     velocity = ReferenceListProperty(velocity_x, velocity_y)
 
+    def gravity(self):
+        terminalVelocity = 15
+        accelerationDueToGravity = 0.5
+        if abs(self.velocity_y) < terminalVelocity:
+            self.velocity_y -= accelerationDueToGravity
+        
+    def move(self):
+        self.pos = Vector(*self.velocity) + self.pos
+
+class Platform(Widget):
+    pass
+
 class Scene(Widget):
     marble = ObjectProperty(None)
+    platform = ObjectProperty(None)
 
-    def initialise_scene(self):
-        self.marble.center = self.center
+    def update_scene(self, dt):
+        self.marble.gravity()
+        self.marble.move()
 
-
-class AwesomeMarbleRunApp(App):
+class awesomeMarbleRunApp(App):
     def build(self):
         scene = Scene()
-        scene.initialise_scene()
+        Clock.schedule_interval(scene.update_scene, 1.0 / 60.0)
         return scene
+        
     
 if __name__ == "__main__":
-    AwesomeMarbleRunApp().run()
+    Window.size = (750, 1000)
+    awesomeMarbleRunApp().run()
