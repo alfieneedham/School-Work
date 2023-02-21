@@ -1,0 +1,15 @@
+#:kivy 2.1.0
+
+<Marble>:
+    size: 50, 50 
+    canvas:
+        Ellipse:
+            pos: self.pos
+            size: self.size 
+
+<Scene>:
+    marble: marblemarble
+
+    Marble:
+        id: marblemarble
+        center: self.parent.center
