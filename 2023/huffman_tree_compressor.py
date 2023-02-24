@@ -34,17 +34,16 @@ while len(dictOfCharacters) > 1:
     dictOfCharacters[smallestChar1 + smallestChar2] = value1 + value2   
 for char in dictOfCharacters:
     dictOfHuffmanCodes[char] = None
-   
-   
-    
+
+print(dictOfHuffmanCodes)
+
 def create_huffman_code(char):
     print(char)
-    if dictOfHuffmanCodes[char][0] is None:
-        return()
-    else:
-        return(dictOfHuffmanCodes[create_huffman_code[char][0]] + create_huffman_code[char][1])
+    if dictOfHuffmanCodes[char] is None:
+        return("")
+    return(create_huffman_code(dictOfHuffmanCodes[char][0]) + str(dictOfHuffmanCodes[char][1]))
     
 for i in range(len(text)):
-    code = create_huffman_code(text[i])
+    huffmanCode += create_huffman_code(text[i])
 
-print(huffmanCode)
+print(str(huffmanCode))

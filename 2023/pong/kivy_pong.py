@@ -15,7 +15,7 @@ class PongPaddle(Widget):
     def bounce_ball(self, ball):
         if self.collide_widget(ball):
             vx, vy = ball.velocity
-            maxSpeed = 15
+            maxSpeed = 100000000000
             offset = (ball.center_y - self.center_y) / (self.height / 2)           
             bounced = Vector(-1 * vx, vy)           
             if sqrt((vx ** 2) + (vy ** 2)) <= maxSpeed:
