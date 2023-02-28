@@ -47,7 +47,7 @@ def generate_all_5_letter_words():
     
 
 
-#fileToOpen = str(input("Enter file name: "))
-#copy_text_file(fileToOpen)
+fileToOpen = str(input("Enter file name: "))
+copy_text_file(fileToOpen)
 
 generate_all_5_letter_words()
