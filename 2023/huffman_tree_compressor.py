@@ -35,15 +35,11 @@ while len(dictOfCharacters) > 1:
 for char in dictOfCharacters:
     dictOfHuffmanCodes[char] = None
 
-print(dictOfHuffmanCodes)
-
+# * Creates the Huffman Code and prints it to the terminal.
 def create_huffman_code(char):
-    print(char)
     if dictOfHuffmanCodes[char] is None:
         return("")
-    return(create_huffman_code(dictOfHuffmanCodes[char][0]) + str(dictOfHuffmanCodes[char][1]))
-    
+    return(create_huffman_code(dictOfHuffmanCodes[char][0]) + str(dictOfHuffmanCodes[char][1])) 
 for i in range(len(text)):
     huffmanCode += create_huffman_code(text[i])
-
 print(str(huffmanCode))

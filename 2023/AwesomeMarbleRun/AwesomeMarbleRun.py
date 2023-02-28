@@ -11,8 +11,8 @@ class Marble(Widget):
     velocity = ReferenceListProperty(velocity_x, velocity_y)
 
     def gravity(self):
-        terminalVelocity = 15
-        accelerationDueToGravity = 0.5
+        terminalVelocity = 10
+        accelerationDueToGravity = 0.3
         if abs(self.velocity_y) < terminalVelocity:
             self.velocity_y -= accelerationDueToGravity
         
@@ -20,7 +20,9 @@ class Marble(Widget):
         self.pos = Vector(*self.velocity) + self.pos
 
 class Platform(Widget):
-    pass
+    def detect_collision(self, marble):
+        if self.collide_widget(marble):
+            print("Collided!")
 
 class Scene(Widget):
     marble = ObjectProperty(None)
@@ -29,6 +31,7 @@ class Scene(Widget):
     def update_scene(self, dt):
         self.marble.gravity()
         self.marble.move()
+        self.platform.detect_collision(self.marble)
 
 class awesomeMarbleRunApp(App):
     def build(self):
