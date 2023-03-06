@@ -25,7 +25,7 @@ class Marble(Widget):
         Marble.canCollide = True
         print("Unlocked")
 
-class SquarePlatform(Widget):
+class HorizontalLine(Widget):
     def detect_collision(self, marble):
         coefficientOfRestitution = 0.8
         if self.collide_widget(marble) and Marble.canCollide == True:
@@ -37,28 +37,39 @@ class SquarePlatform(Widget):
             return(True)
         else:
             return(False)
-    pass
+        
+class VerticalLine(Widget):
+    def detect_collision(self, marble):
+        coefficientOfRestitution = 0.8
+        if self.collide_widget(marble) and Marble.canCollide == True:
+            print("Collided!")
+            marble.velocity_y *= -coefficientOfRestitution
+            Marble.canCollide = False
+            Clock.schedule_once(Marble.unlock_collision, 0.00001)
+            print(self.angle)
+            return(True)
+        else:
+            return(False)
 
 class Scene(Widget):
-    # * The objects in the scene
     marble = ObjectProperty(None)
     platform = ObjectProperty(None)
+    verticalline = ObjectProperty(None)
+    # * i think this is the issue but idk
 
-    # * Updates the entire scene each frame.
     def update_scene(self, dt):
         # * This prevents gravity from activating the same frame as velocity is changed due to collision, which causes some interesting bugs.
         if self.platform.detect_collision(self.marble) == False:
             self.marble.gravity()
         self.marble.move()
 
-
 class awesomeMarbleRunApp(App):
     def build(self):
         scene = Scene()
-        Clock.schedule_interval(scene.update_scene, 1.0 / 60.0)
+        Clock.schedule_interval(scene.update_scene, 1.0 / 120.0)
         return scene
         
     
 if __name__ == "__main__":
-    Window.size = (750, 1000)
+    Window.size = (750, 750)
     awesomeMarbleRunApp().run()

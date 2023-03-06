@@ -7,25 +7,44 @@
             pos: self.pos
             size: self.size
 
-<SquarePlatform>:
-    size: 15, 15
-    angle: 90
+<HorizontalLine>:
+    size: 15, 1
+    angle: 0
     canvas:
         Rectangle:
             pos: self.pos
             size: self.size
 
+<VerticalLine>:
+    size: 1, -15
+    angle: 0
+    canvas:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+# <TriangularPlatform>:
+#     size: 15, 15
+#     canvas:
+        
+
 <Scene>:
     marble: marblemarble
     platform: squareplatform
+    verticalline: lineinnit
 
     Marble:
         id: marblemarble
         x: self.parent.center_x
         top: self.parent.top-50
 
-    SquarePlatform:
+    HorizontalLine:
         id: squareplatform
         x: self.parent.center_x
         y: self.parent.center_y
-        
+
+    VerticalLine:
+        id: lineinnit
+        x: self.parent.center_x
+        y: self.parent.center_y
+
