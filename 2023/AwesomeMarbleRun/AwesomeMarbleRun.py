@@ -4,6 +4,7 @@ from kivy.properties import NumericProperty, ReferenceListProperty, ObjectProper
 from kivy.vector import Vector
 from kivy.clock import Clock
 from kivy.core.window import Window
+from math import sin, cos
 
 class Marble(Widget):
     canCollide = True
@@ -20,47 +21,46 @@ class Marble(Widget):
         
     def move(self):
         self.pos = Vector(*self.velocity) + self.pos
+
+    def detect_collision(self, platform):
+        coefficientOfRestitution = 0.8
+        if self.collide_widget(platform) and Marble.canCollide == True:
+            print("Collided!", platform.angle)
+            self.velocity_y *= -coefficientOfRestitution * cos(platform.angle)
+            self.velocity_x *= -coefficientOfRestitution * sin(platform.angle)
+            # * THIS IS broken please fix this next please please please please please please please please please please please
+            Marble.canCollide = False
+            Clock.schedule_once(Marble.unlock_collision, 0.01)
+            return(True)
+        else:
+            return(False)
         
-    def unlock_collision(delta):
+    def unlock_collision(dt):
         Marble.canCollide = True
         print("Unlocked")
 
-class HorizontalLine(Widget):
-    def detect_collision(self, marble):
-        coefficientOfRestitution = 0.8
-        if self.collide_widget(marble) and Marble.canCollide == True:
-            print("Collided!")
-            marble.velocity_y *= -coefficientOfRestitution
-            Marble.canCollide = False
-            Clock.schedule_once(Marble.unlock_collision, 0.00001)
-            print(self.angle)
-            return(True)
-        else:
-            return(False)
-        
-class VerticalLine(Widget):
-    def detect_collision(self, marble):
-        coefficientOfRestitution = 0.8
-        if self.collide_widget(marble) and Marble.canCollide == True:
-            print("Collided!")
-            marble.velocity_y *= -coefficientOfRestitution
-            Marble.canCollide = False
-            Clock.schedule_once(Marble.unlock_collision, 0.00001)
-            print(self.angle)
-            return(True)
-        else:
-            return(False)
+class RectanglePlatform(Widget):
+    topline = ObjectProperty(None)
+    botline = ObjectProperty(None)
+    leftline = ObjectProperty(None)
+    rightline = ObjectProperty(None)
+class TopLine(Widget):
+    pass
+class BotLine(Widget):
+    pass     
+class LeftLine(Widget):
+    pass
+class RightLine(Widget):
+    pass
 
 class Scene(Widget):
     marble = ObjectProperty(None)
     platform = ObjectProperty(None)
-    verticalline = ObjectProperty(None)
-    # * i think this is the issue but idk
 
     def update_scene(self, dt):
-        # * This prevents gravity from activating the same frame as velocity is changed due to collision, which causes some interesting bugs.
-        if self.platform.detect_collision(self.marble) == False:
-            self.marble.gravity()
+        for child in self.platform.children:
+            if self.marble.detect_collision(child) == False:
+                self.marble.gravity()
         self.marble.move()
 
 class awesomeMarbleRunApp(App):
@@ -69,7 +69,6 @@ class awesomeMarbleRunApp(App):
         Clock.schedule_interval(scene.update_scene, 1.0 / 120.0)
         return scene
         
-    
 if __name__ == "__main__":
-    Window.size = (750, 750)
+    Window.size = (500, 750)
     awesomeMarbleRunApp().run()
