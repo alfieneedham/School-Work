@@ -28,7 +28,7 @@ class Marble(Widget):
             print("Collided!", platform.angle)
             self.velocity_y *= -coefficientOfRestitution * cos(platform.angle)
             self.velocity_x *= -coefficientOfRestitution * sin(platform.angle)
-            # * THIS IS broken please fix this next please please please please please please please please please please please
+            # * THIS IS broken please fix this next please please please please please please please please please please please also work out how to fix gravity, gonna have to use a different system :(
             Marble.canCollide = False
             Clock.schedule_once(Marble.unlock_collision, 0.01)
             return(True)
