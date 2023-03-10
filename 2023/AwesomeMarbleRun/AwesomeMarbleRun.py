@@ -34,7 +34,8 @@ class Marble(Widget):
                 tempVelocity = self.velocity_y
                 self.velocity_y = -elasticity * self.velocity_x
                 self.velocity_x = -elasticity * tempVelocity
-            if platform.angle == 135 or platform.angle
+            if platform.angle == 135 or platform.angle == 315:
+                pass
 
 
 
