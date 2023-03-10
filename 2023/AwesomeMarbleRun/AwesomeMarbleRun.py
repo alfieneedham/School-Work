@@ -15,7 +15,7 @@ class Marble(Widget):
 
     def gravity(self):
         terminalVelocity = 15
-        accelerationDueToGravity = 0.5
+        accelerationDueToGravity = 0.5 / 4
         if self.velocity_y > -terminalVelocity:
             self.velocity_y -= accelerationDueToGravity
         
@@ -23,12 +23,25 @@ class Marble(Widget):
         self.pos = Vector(*self.velocity) + self.pos
 
     def detect_collision(self, platform):
-        coefficientOfRestitution = 0.8
+        elasticity = 0.8
         if self.collide_widget(platform) and Marble.canCollide == True:
             print("Collided!", platform.angle)
-            self.velocity_y *= -coefficientOfRestitution * cos(platform.angle)
-            self.velocity_x *= -coefficientOfRestitution * sin(platform.angle)
-            # * THIS IS broken please fix this next please please please please please please please please please please please also work out how to fix gravity, gonna have to use a different system :(
+            if platform.angle == 0 or platform.angle == 180:
+                self.velocity_y *= -elasticity
+            if platform.angle == 90 or platform.angle == 270:
+                self.velocity_x *= -elasticity
+            if platform.angle == 45 or platform.angle == 225:
+                tempVelocity = self.velocity_y
+                self.velocity_y = -elasticity * self.velocity_x
+                self.velocity_x = -elasticity * tempVelocity
+            if platform.angle == 135 or platform.angle
+
+
+
+            # * equation time l;ets govequaitons go ehe por fasvpfr
+
+
+
             Marble.canCollide = False
             Clock.schedule_once(Marble.unlock_collision, 0.01)
             return(True)
