@@ -143,7 +143,7 @@ class NaivePriorityQueue(PriorityQueue):
         return(self.queue)
     
 
-
+# * FINISH por favor
 class HeapPriorityQueue(PriorityQueue):
     
     def __init__(self):
@@ -155,54 +155,60 @@ class HeapPriorityQueue(PriorityQueue):
 
 
 
+class HashTable():
 
-# q = LinearQueue(3)
-# q.enqueue("a")
-# print(q.get_queue())
-# q.enqueue("b")
-# print(q.get_queue())
-# (q.dequeue())
-# q.enqueue("c")
-# print(q.get_queue())
-# q.autoReset = True
-# # q.enqueue("d")
-# # print(q.get_queue())
-# # q.enqueue("e")
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.table = [[None,None,None]]*capacity
+        self.emptySpaces = []
+        self.top = capacity
+
+    def insert(self, item):
+        inserted = False
+        spaceToInsert = item%self.capacity
+        prevSpace = None
+
+        while inserted == False:
+            try:
+                if self.table[spaceToInsert][0] == None:
+                    self.table[spaceToInsert] = [item, None, prevSpace]
+                    inserted = True
+                else:
+                    prevSpace = spaceToInsert
+                    if self.table[spaceToInsert][1] == None:
+                        spaceToInsert = self.top
+                    else:
+                        spaceToInsert = self.table[spaceToInsert][1]
+            except:
+                self.table.append([item, None, prevSpace])
+                self.table[prevSpace][1] = spaceToInsert
+                inserted = True
+                self.top += 1
+
+    def remove(self, item):
+        index = item%self.capacity
+        while True:
+            if (self.table[index][0]) == item:
+                if self.table[index][1] != None:
+                    self.table[[index][2]][1] = self.table[index][1]
+                    self.table[[index][1]][2] = self.table[index][2]
+                    self.table[index] = [None, None, None]
+                break
+            else:
+                index = self.table[index][1]
 
 
 
-# q = CircularQueue(6)
-# q.enqueue(3)
-# q.enqueue(7)
-# q.enqueue(4)
-# q.dequeue()
-# q.enqueue(5)
-# q.dequeue()
-# q.enqueue(6)
-# q.enqueue(2)
-# q.dequeue()
-# q.enqueue(9)
-# q.dequeue()
-# q.enqueue(8)
-# q.dequeue()
-# q.dequeue()
-# print(q.get_queue())
-# print(q.get_head())
-# print(q.get_tail())   
- 
- 
- 
-# q = NaivePriorityQueue()
-# q.enqueue("a", 21)
-# print(q.get_queue())
-# q.enqueue("b", 27)
-# print(q.queue)
-# print(q.queue[1][0])
-# q.enqueue("c", 15)
-# q.enqueue("d", 12)
-# q.enqueue("e", 11)
-# print(q.dequeue()[0])
-# print(q.get_queue())
-
-q = HeapPriorityQueue
-q.enqueue("a", 1)
+t = HashTable(20)
+t.insert(37)
+t.insert(91)
+t.insert(22)
+t.insert(51)
+t.insert(82)
+t.insert(31)
+print("")
+print(t.table[11])
+print(t.table[22])
+t.remove(51)
+print(t.table[11])
+print(t.table[22])
