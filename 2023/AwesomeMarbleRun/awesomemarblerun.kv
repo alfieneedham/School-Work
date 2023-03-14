@@ -3,6 +3,8 @@
 <Marble>:
     size: 15, 15 
     canvas:
+        Color:
+            rgba: 0,1,1,1
         Ellipse:
             pos: self.pos
             size: self.size
@@ -12,7 +14,7 @@
     size: 15, 15
     canvas:
         Color:
-            rgba: 1,1,1,1
+            rgba: 1,1,1,0.5
         Rectangle:
             pos: self.pos
             size: self.size
@@ -84,7 +86,7 @@
 
 <Scene>:
     marble: marblemarble
-    platform: squareplatform
+    platforms: [squareplatform, squareplatformm]
 
     Marble:
         id: marblemarble
@@ -96,3 +98,7 @@
         x: self.parent.center_x
         y: self.parent.center_y
 
+    RectanglePlatform:
+        id: squareplatformm
+        x: self.parent.center_x
+        y: self.parent.center_y + 20
