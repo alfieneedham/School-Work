@@ -199,16 +199,41 @@ class HashTable():
 
 
 
-t = HashTable(20)
-t.insert(37)
-t.insert(91)
-t.insert(22)
-t.insert(51)
-t.insert(82)
-t.insert(31)
-print("")
-print(t.table[11])
-print(t.table[22])
-t.remove(51)
-print(t.table[11])
-print(t.table[22])
+# t = HashTable(20)
+# t.insert(37)
+# t.insert(91)
+# t.insert(22)
+# t.insert(51)
+# t.insert(82)
+# t.insert(31)
+# print("")
+# print(t.table[11])
+# print(t.table[22])
+# t.remove(51)
+# print(t.table[11])
+# print(t.table[22])
+
+
+
+class Graph():
+
+    def __init__(self, vertices, edges):
+        self.vertices = vertices
+        self.edges = edges
+        self.matrix = []
+        self.list = []
+        for i in range(vertices):
+            self.matrix.append([0]*vertices)
+            self.list.append([])
+        for i in range(edges):
+            self.input_edge()
+
+    def input_edge(self):
+        start, end = input("Enter edge [from:to]: ").split(":")
+        self.matrix[int(start)][int(end)] = 1
+        if int(end) not in self.list[int(start)]:
+            self.list[int(start)].append(int(end))
+
+g = Graph(5,2)
+print(g.matrix)
+print(g.list)
