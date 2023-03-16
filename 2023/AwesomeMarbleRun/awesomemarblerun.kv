@@ -3,29 +3,102 @@
 <Marble>:
     size: 15, 15 
     canvas:
+        Color:
+            rgba: 0,1,1,1
         Ellipse:
             pos: self.pos
             size: self.size
 
-<SquarePlatform>:
+<RectanglePlatform>:
+
     size: 15, 15
-    angle: 90
     canvas:
+        Color:
+            rgba: 1,1,1,0.5
         Rectangle:
             pos: self.pos
             size: self.size
 
+    TopLine:
+        id: topline
+        x: self.parent.center_x - 7
+        y: self.parent.center_y + 7
+
+    BotLine:
+        id: botline
+        x: self.parent.center_x - 7
+        y: self.parent.center_y - 8
+
+    LeftLine:
+        id: leftline
+        x: self.parent.center_x -7
+        y: self.parent.center_y + 7
+
+    RightLine:
+        id: rightline
+        x: self.parent.center_x + 8
+        y: self.parent.center_y + 7
+
+<TopLine>:
+    size: 15, 1
+    angle: 0
+    canvas:
+        Color:
+            rgba: 1,1,1,0
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<BotLine>:
+    size: 15, 1
+    angle: 180
+    canvas:
+        Color:
+            rgba: 1,1,1,0
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<LeftLine>:
+    size: 1, -15
+    angle: 270
+    canvas:
+        Color:
+            rgba: 1,1,1,0
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<RightLine>:
+    size: 1, -15
+    angle: 90
+    canvas:
+        Color:
+            rgba: 1,1,1,0
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+# <TriangularPlatform>:
+#     size: 15, 15
+#     canvas:
+        
+
 <Scene>:
     marble: marblemarble
-    platform: squareplatform
+    platforms: [squareplatform, squareplatformm]
 
     Marble:
         id: marblemarble
         x: self.parent.center_x
         top: self.parent.top-50
 
-    SquarePlatform:
+    RectanglePlatform:
         id: squareplatform
         x: self.parent.center_x
         y: self.parent.center_y
-        
+
+    RectanglePlatform:
+        id: squareplatformm
+        x: self.parent.center_x
+        y: self.parent.center_y + 20
