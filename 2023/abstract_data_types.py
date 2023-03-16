@@ -152,6 +152,27 @@ class HeapPriorityQueue(PriorityQueue):
     def enqueue(self, item, priority):
         super().enqueue(item, priority)
         print("Extra done.")
+        
+ 
+        
+class Graph():
+
+    def __init__(self, vertices, edges):
+        self.vertices = vertices
+        self.edges = edges
+        self.matrix = []
+        self.list = []
+        for i in range(vertices):
+            self.matrix.append([0]*vertices)
+            self.list.append([])
+        for i in range(edges):
+            self.input_edge()
+
+    def input_edge(self):
+        start, end = input("Enter edge [from:to]: ").split(":")
+        self.matrix[int(start)][int(end)] = 1
+        if int(end) not in self.list[int(start)]:
+            self.list[int(start)].append(int(end))
 
 
 
@@ -180,60 +201,51 @@ class HashTable():
                     else:
                         spaceToInsert = self.table[spaceToInsert][1]
             except:
-                self.table.append([item, None, prevSpace])
-                self.table[prevSpace][1] = spaceToInsert
+                if len(self.emptySpaces) != 0:
+                    self.table[self.emptySpaces[-1]] = [item, None, prevSpace]
+                    self.table[prevSpace][1] = self.emptySpaces[-1]
+                    self.emptySpaces.pop(-1)
+                else:
+                    self.table.append([item, None, prevSpace])
+                    self.table[prevSpace][1] = spaceToInsert
+                    self.top += 1
                 inserted = True
-                self.top += 1
 
     def remove(self, item):
         index = item%self.capacity
         while True:
             if (self.table[index][0]) == item:
+                nextIndex = self.table[index][1]
+                prevIndex = self.table[index][2]
+                self.table[prevIndex][1] = self.table[index][1]
                 if self.table[index][1] != None:
-                    self.table[[index][2]][1] = self.table[index][1]
-                    self.table[[index][1]][2] = self.table[index][2]
-                    self.table[index] = [None, None, None]
+                    self.table[nextIndex][2] = self.table[index][2]
+                self.table[index] = [None, None, None]
+                self.emptySpaces.append(index)
                 break
             else:
                 index = self.table[index][1]
 
+t = HashTable(20)
+t.insert(37)
+t.insert(91)
+t.insert(22)
+t.insert(51)
+t.insert(82)
+t.insert(31)
+print("")
+print(t.table)
+print("")
+t.remove(31)
+print(t.table)
+print("")
+t.insert(31)
+print(t.table)
+print("")
+t.insert(587)
+t.insert(607)
+print(t.table)
 
-
-# t = HashTable(20)
-# t.insert(37)
-# t.insert(91)
-# t.insert(22)
-# t.insert(51)
-# t.insert(82)
-# t.insert(31)
-# print("")
-# print(t.table[11])
-# print(t.table[22])
-# t.remove(51)
-# print(t.table[11])
-# print(t.table[22])
-
-
-
-class Graph():
-
-    def __init__(self, vertices, edges):
-        self.vertices = vertices
-        self.edges = edges
-        self.matrix = []
-        self.list = []
-        for i in range(vertices):
-            self.matrix.append([0]*vertices)
-            self.list.append([])
-        for i in range(edges):
-            self.input_edge()
-
-    def input_edge(self):
-        start, end = input("Enter edge [from:to]: ").split(":")
-        self.matrix[int(start)][int(end)] = 1
-        if int(end) not in self.list[int(start)]:
-            self.list[int(start)].append(int(end))
-
-g = Graph(5,2)
-print(g.matrix)
-print(g.list)
+# g = Graph(5,2)
+# print(g.matrix)
+# print(g.list)
