@@ -158,21 +158,29 @@ class HeapPriorityQueue(PriorityQueue):
 class Graph():
 
     def __init__(self, vertices, edges):
-        self.vertices = vertices
-        self.edges = edges
-        self.matrix = []
-        self.list = []
+        self.__vertices = vertices
+        self.__edges = edges
+        self.__matrix = []
+        self.__list = []
         for i in range(vertices):
-            self.matrix.append([0]*vertices)
-            self.list.append([])
+            self.__matrix.append([0]*vertices)
+            self.__list.append([])
         for i in range(edges):
             self.input_edge()
 
     def input_edge(self):
         start, end = input("Enter edge [from:to]: ").split(":")
-        self.matrix[int(start)][int(end)] = 1
-        if int(end) not in self.list[int(start)]:
-            self.list[int(start)].append(int(end))
+        self.__matrix[int(start)][int(end)] = 1
+        if int(end) not in self.__list[int(start)]:
+            self.__list[int(start)].append(int(end))
+
+    def print_matrix(self):
+        for i in self.__matrix:
+            print(*i)
+
+    def print_list(self):
+        for i in range(len(self.__list)):
+            print(str(i) + ": " + str(self.__list[i]))
 
 
 
@@ -226,26 +234,28 @@ class HashTable():
             else:
                 index = self.table[index][1]
 
-t = HashTable(20)
-t.insert(37)
-t.insert(91)
-t.insert(22)
-t.insert(51)
-t.insert(82)
-t.insert(31)
-print("")
-print(t.table)
-print("")
-t.remove(31)
-print(t.table)
-print("")
-t.insert(31)
-print(t.table)
-print("")
-t.insert(587)
-t.insert(607)
-print(t.table)
+# t = HashTable(20)
+# t.insert(37)
+# t.insert(91)
+# t.insert(22)
+# t.insert(51)
+# t.insert(82)
+# t.insert(31)
+# print("")
+# print(t.table)
+# print("")
+# t.remove(31)
+# print(t.table)
+# print("")
+# t.insert(31)
+# print(t.table)
+# print("")
+# t.insert(587)
+# t.insert(607)
+# print(t.table)
 
-# g = Graph(5,2)
-# print(g.matrix)
-# print(g.list)
+g = Graph(5,2)
+print("")
+g.print_matrix()
+print("")
+g.print_list()
