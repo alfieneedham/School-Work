@@ -5,12 +5,16 @@ from kivy.vector import Vector
 from kivy.clock import Clock
 from kivy.core.window import Window
 from math import sin, cos
+from random import choice, randint
 
 class Marble(Widget):
     canCollide = True
-    velocity_x = NumericProperty(0)
+    velocity_x = NumericProperty(1)
     velocity_y = NumericProperty(0)
     velocity = ReferenceListProperty(velocity_x, velocity_y)
+
+    def player_input(self):
+        pass
 
     def gravity(self):
         terminalVelocity = 15
@@ -25,24 +29,37 @@ class Marble(Widget):
         if self.collide_widget(platform):
             return(True)
 
-    def bounce_marble(self, platform):
-        elasticity = 0.8
-        if self.collide_widget(platform) and Marble.canCollide == True:
+
+ # * this is bad so please find shortest distasnce between chidren and use that one
+
+    def bounce_off_objects(self, platform, elasticity):
+        if (self.collide_widget(platform) or platform.parent == Bumper or platform.parent == ElasticBumper) and Marble.canCollide == True:
             if platform.angle == 0 or platform.angle == 180:
                 self.velocity_y *= -elasticity
             if platform.angle == 90 or platform.angle == 270:
                 self.velocity_x *= -elasticity
-            if platform.angle == 45 or platform.angle == 225:
-                tempVelocity = self.velocity_y
-                self.velocity_y = -elasticity * self.velocity_x
-                self.velocity_x = -elasticity * tempVelocity
-            if platform.angle == 135 or platform.angle == 315:
-                tempVelocity = self.velocity_y
-                self.velocity_y = -elasticity * self.velocity_x
-                self.velocity_x = elasticity * tempVelocity
+            if platform.angle == -1:
+                # * This is for collision with a bumper. It is treated as a non-oblique collision.
+                normalVector = Vector(platform.center_x - self.center_x, platform.center_y - self.center_y)
+                angle = normalVector.angle(Vector(1,0))
+                parallel = normalVector.dot(Vector(self.velocity)) / normalVector.length2() * normalVector
+                perpendicular = Vector(self.velocity) - parallel
+                self.velocity = perpendicular - parallel
             Marble.canCollide = False
-            Clock.schedule_once(Marble.unlock_collision, 0.01)
-            platform.parent.y += 1
+            Clock.schedule_once(Marble.unlock_collision, 0.000000000000000000001)
+
+    def spawn_marble(self):
+        self.center = self.parent.center
+        self.y = self.parent.top - 50
+        self.velocity = Vector(randint(-5,5), 0).rotate(randint(-30, 30))
+
+    def bounce_off_walls(self):
+        if self.x < self.parent.x or self.right > self.parent.width:
+            self.velocity_x *= -1
+        if self.top > self.parent.top:
+            self.velocity_y *= -1
+        if self.y < self.parent.y:
+            self.spawn_marble()
         
     def unlock_collision(dt):
         Marble.canCollide = True
@@ -52,6 +69,15 @@ class RectanglePlatform(Widget):
     botline = ObjectProperty(None)
     leftline = ObjectProperty(None)
     rightline = ObjectProperty(None)
+class ElasticRectanglePlatform(Widget):
+    topline = ObjectProperty(None)
+    botline = ObjectProperty(None)
+    leftline = ObjectProperty(None)
+    rightline = ObjectProperty(None)
+class Bumper(Widget):
+    bumpercomponent = ObjectProperty(None)
+class ElasticBumper(Widget):
+    bumpercomponent = ObjectProperty(None)
 class TopLine(Widget):
     pass
 class BotLine(Widget):
@@ -60,6 +86,8 @@ class LeftLine(Widget):
     pass
 class RightLine(Widget):
     pass
+class BumperComponent(Widget):
+    pass
 
 class Scene(Widget):
 
@@ -67,15 +95,17 @@ class Scene(Widget):
         for i in self.platforms:
             if self.marble.detect_collision(i) == True:
                 for child in i.children:
-                    self.marble.bounce_marble(child)
+                    self.marble.bounce_off_objects(child, i.elasticity)
         self.marble.gravity()
         self.marble.move()
+        self.marble.player_input()
+        self.marble.bounce_off_walls()
 
 class awesomeMarbleRunApp(App):
     def build(self):
-        Window.clearcolor=(0.2,0.6,0.2,1)
+        Window.clearcolor=(1,1,1,1)
         scene = Scene()
-        Clock.schedule_interval(scene.update_scene, 1.0 / 120.0)
+        Clock.schedule_interval(scene.update_scene, 1.0 / 60)
         return scene
       
 if __name__ == "__main__":

@@ -1,104 +1,257 @@
 #:kivy 2.1.0
 
 <Marble>:
-    size: 15, 15 
+    size: 30, 30
     canvas:
         Color:
-            rgba: 0,1,1,1
+            rgba: 4/244,213/255,237/255,1
         Ellipse:
             pos: self.pos
             size: self.size
 
 <RectanglePlatform>:
-
-    size: 15, 15
+    elasticity: 0.7
+    size: 30, 30
     canvas:
         Color:
-            rgba: 1,1,1,0.5
+            rgba: 4/244,213/255,237/255,1
         Rectangle:
             pos: self.pos
             size: self.size
-
     TopLine:
         id: topline
-        x: self.parent.center_x - 7
-        y: self.parent.center_y + 7
-
+        x: self.parent.center_x - 5
+        y: self.parent.center_y + 12
     BotLine:
         id: botline
-        x: self.parent.center_x - 7
-        y: self.parent.center_y - 8
-
+        x: self.parent.center_x - 5
+        y: self.parent.center_y - 15
     LeftLine:
         id: leftline
-        x: self.parent.center_x -7
-        y: self.parent.center_y + 7
-
+        x: self.parent.center_x - 15
+        y: self.parent.center_y + 5
     RightLine:
         id: rightline
-        x: self.parent.center_x + 8
-        y: self.parent.center_y + 7
+        x: self.parent.center_x + 12
+        y: self.parent.center_y + 5
+    BumperComponent:
+        id: bumpercomponent
+        x: self.parent.center_x - 15
+        y: self.parent.center_y - 15
+    BumperComponent:
+        id: bumpercomponent
+        x: self.parent.center_x + 11
+        y: self.parent.center_y - 15
+    BumperComponent:
+        id: bumpercomponent
+        x: self.parent.center_x - 15
+        y: self.parent.center_y + 11
+    BumperComponent:
+        id: bumpercomponent
+        x: self.parent.center_x + 11
+        y: self.parent.center_y + 11
+
+<ElasticRectanglePlatform>:
+    elasticity: 1.2
+    size: 30, 30
+    canvas:
+        Color:
+            rgba: 255/255,46/255,132/255,1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    TopLine:
+        id: topline
+        x: self.parent.center_x - 5
+        y: self.parent.center_y + 12
+    BotLine:
+        id: botline
+        x: self.parent.center_x - 5
+        y: self.parent.center_y - 15
+    LeftLine:
+        id: leftline
+        x: self.parent.center_x - 15
+        y: self.parent.center_y + 5
+    RightLine:
+        id: rightline
+        x: self.parent.center_x + 12
+        y: self.parent.center_y + 5
+    BumperComponent:
+        id: bumpercomponent
+        x: self.parent.center_x - 15
+        y: self.parent.center_y - 15
+    BumperComponent:
+        id: bumpercomponent
+        x: self.parent.center_x - 15
+        y: self.parent.center_y + 13
+    BumperComponent:
+        id: bumpercomponent
+        x: self.parent.center_x + 13
+        y: self.parent.center_y - 15
+    BumperComponent:
+        id: bumpercomponent
+        x: self.parent.center_x + 13
+        y: self.parent.center_y + 13
+
+<Bumper>:
+    elasticity: 0.7
+    size: 10, 10
+    canvas:
+        Color:
+            rgba: 4/244,213/255,237/255,1
+        Ellipse:
+            pos: self.pos
+            size: self.size
+    BumperComponent:
+        id: bumpercomponent
+        x: self.parent.center_x - 1
+        y: self.parent.center_y - 1
+
+<ElasticBumper>:
+    elasticity: 1.2
+    size: 10, 10
+    canvas:
+        Color:
+            rgba: 255/255,46/255,132/255,1
+        Ellipse:
+            pos: self.pos
+            size: self.size
+    BumperComponent:
+        id: bumpercomponent
+        x: self.parent.center_x - 1
+        y: self.parent.center_y - 1
+
+<BumperComponent>:
+    size: 2, 2
+    angle: -1
+    canvas:
+        Color:
+            rgba: 0,1,0,0
+        Ellipse:
+            pos: self.pos
+            size: self.size
 
 <TopLine>:
-    size: 15, 1
+    size: 10, 3
     angle: 0
     canvas:
         Color:
-            rgba: 1,1,1,0
+            rgba: 0,1,1,0
         Rectangle:
             pos: self.pos
             size: self.size
 
 <BotLine>:
-    size: 15, 1
+    size: 10, 3
     angle: 180
     canvas:
         Color:
-            rgba: 1,1,1,0
+            rgba: 1,0,1,0
         Rectangle:
             pos: self.pos
             size: self.size
 
 <LeftLine>:
-    size: 1, -15
+    size: 3, -10
     angle: 270
     canvas:
         Color:
-            rgba: 1,1,1,0
+            rgba: 1,1,0,0
         Rectangle:
             pos: self.pos
             size: self.size
 
 <RightLine>:
-    size: 1, -15
+    size: 3, -10
     angle: 90
     canvas:
         Color:
-            rgba: 1,1,1,0
+            rgba: 1,0,0,0
         Rectangle:
             pos: self.pos
             size: self.size
-
-# <TriangularPlatform>:
-#     size: 15, 15
-#     canvas:
         
-
 <Scene>:
     marble: marblemarble
-    platforms: [squareplatform, squareplatformm]
+    platforms: [middleBumperOne,middleBumperTwo,topLeftOne,topLeftTwo,topLeftThree,topRightOne,topRightTwo,topRightThree,middleSquareOne,middleSquareTwo,middleSquareThree,diamondBumperTwo,diamondBumperThree,diamondBumperFour,diamondBumperFive,diamondBumperSix,diamondBumperSeven,diamondBumperEight]
 
     Marble:
         id: marblemarble
         x: self.parent.center_x
         top: self.parent.top-50
 
-    RectanglePlatform:
-        id: squareplatform
-        x: self.parent.center_x
-        y: self.parent.center_y
+    ElasticRectanglePlatform:
+        id: topLeftOne
+        x: self.parent.x + 50
+        y: self.parent.top - 100
+    ElasticRectanglePlatform:
+        id: topLeftTwo
+        x: self.parent.x + 50
+        y: self.parent.top - 130
+    ElasticRectanglePlatform:
+        id: topLeftThree
+        x: self.parent.x + 50
+        y: self.parent.top - 160
+    ElasticRectanglePlatform:
+        id: topRightOne
+        x: self.parent.width - 80
+        y: self.parent.top - 100
+    ElasticRectanglePlatform:
+        id: topRightTwo
+        x: self.parent.width - 80
+        y: self.parent.top - 130
+    ElasticRectanglePlatform:
+        id: topRightThree
+        x: self.parent.width - 80
+        y: self.parent.top - 160
 
+    ElasticBumper:
+        id: middleBumperOne
+        x: self.parent.center_x - 65
+        y: self.parent.top - 415
     RectanglePlatform:
-        id: squareplatformm
-        x: self.parent.center_x
-        y: self.parent.center_y + 20
+        id: middleSquareOne
+        x: self.parent.center_x - 45
+        y: self.parent.top - 425
+    RectanglePlatform:
+        id: middleSquareTwo
+        x: self.parent.center_x - 15
+        y: self.parent.top - 425
+    RectanglePlatform:
+        id: middleSquareThree
+        x: self.parent.center_x + 15
+        y: self.parent.top - 425
+    ElasticBumper:
+        id: middleBumperTwo
+        x: self.parent.center_x + 55
+        y: self.parent.top - 415
+
+    Bumper:
+        id: diamondBumperTwo
+        x: self.parent.center_x - 18
+        y: self.parent.top - 210
+    Bumper:
+        id: diamondBumperThree
+        x: self.parent.center_x + 8
+        y: self.parent.top - 210
+    Bumper:
+        id: diamondBumperFour
+        x: self.parent.center_x - 28
+        y: self.parent.top - 230
+    Bumper:
+        id: diamondBumperFive
+        x: self.parent.center_x - 5
+        y: self.parent.top - 230
+    Bumper:
+        id: diamondBumperSix
+        x: self.parent.center_x + 18
+        y: self.parent.top - 230
+    Bumper:
+        id: diamondBumperSeven
+        x: self.parent.center_x - 18
+        y: self.parent.top - 250
+    Bumper:
+        id: diamondBumperEight
+        x: self.parent.center_x + 8
+        y: self.parent.top - 250
+
