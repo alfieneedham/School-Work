@@ -49,9 +49,14 @@ class Marble(Widget):
             Clock.schedule_once(Marble.unlock_collision, 0.000000000000000000001)
 
     def spawn_marble(self):
+        findXVel = True
         self.center = self.parent.center
         self.y = self.parent.top - 50
-        self.velocity = Vector(randint(-5,5), 0).rotate(randint(-30, 30))
+        while findXVel == True:
+            xVel = randint(-5,5)
+            if xVel != 0:
+                findXVel = False
+        self.velocity = Vector(xVel, 0).rotate(randint(-30, 30))
 
     def bounce_off_walls(self):
         if self.x < self.parent.x or self.right > self.parent.width:
@@ -74,6 +79,13 @@ class ElasticRectanglePlatform(Widget):
     botline = ObjectProperty(None)
     leftline = ObjectProperty(None)
     rightline = ObjectProperty(None)
+
+class Paddle(Widget):
+    paddlecomponent = ObjectProperty(None)
+    def move_paddle(self, direction):
+        if (direction == -1 and self.center_x > self.parent.x) or (direction == 1 and self.center_x < self.parent.width):
+            self.x += 10 * direction
+
 class Bumper(Widget):
     bumpercomponent = ObjectProperty(None)
 class ElasticBumper(Widget):
@@ -88,6 +100,8 @@ class RightLine(Widget):
     pass
 class BumperComponent(Widget):
     pass
+class PaddleComponent(Widget):
+    pass
 
 class Scene(Widget):
 
@@ -100,11 +114,38 @@ class Scene(Widget):
         self.marble.move()
         self.marble.player_input()
         self.marble.bounce_off_walls()
+        if self.move_paddle == True:
+            self.paddle.move_paddle(self.direction)
+
+    def keyboard_closed(self):
+        print("Lost keyboard")
+        self.keyboard.unbind(on_key_down=self.on_key_down)
+
+    def on_key_down(self, _keyboard, keycode, _text, _modifiers):
+
+        if keycode[1] == "a":
+            self.move_paddle = True
+            self.direction = -1
+        if keycode[1] == "d":
+            self.move_paddle = True
+            self.direction = 1
+
+    def on_key_up(self, _keyboard, keycode):
+        if keycode[1] == "a" or keycode[1] == "d":
+            self.move_paddle = False
+        
+    def initialise_controls(self):
+        self.keyboard = Window.request_keyboard(self.keyboard_closed, self)
+        self.keyboard.bind(on_key_down=self.on_key_down)
+        self.keyboard.bind(on_key_up=self.on_key_up)
+        self.move_paddle = False
+        self.direction = 0
 
 class awesomeMarbleRunApp(App):
     def build(self):
         Window.clearcolor=(1,1,1,1)
         scene = Scene()
+        scene.initialise_controls()
         Clock.schedule_interval(scene.update_scene, 1.0 / 60)
         return scene
       
