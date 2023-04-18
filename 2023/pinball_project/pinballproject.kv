@@ -1,6 +1,6 @@
 #:kivy 2.1.0
 
-<Marble>:
+<Pinball>:
     size: 30, 30
     canvas:
         Color:
@@ -10,7 +10,7 @@
             size: self.size
 
 <RectanglePlatform>:
-    elasticity: 0.9
+    elasticity: 0.7
     size: 30, 30
     canvas:
         Color:
@@ -18,25 +18,25 @@
         Rectangle:
             pos: self.pos
             size: self.size
-    TopLine:
-        id: topline
-        x: self.parent.center_x - 5
-        y: self.parent.center_y + 12
-    BotLine:
-        id: botline
-        x: self.parent.center_x - 5
+    TopPoint:
+        id: toppoint
+        x: self.parent.center_x
+        y: self.parent.center_y + 14
+    BotPoint:
+        id: botpoint
+        x: self.parent.center_x
         y: self.parent.center_y - 15
-    LeftLine:
-        id: leftline
-        x: self.parent.center_x - 15
-        y: self.parent.center_y + 5
-    RightLine:
-        id: rightline
-        x: self.parent.center_x + 12
-        y: self.parent.center_y + 5
+    LeftPoint:
+        id: leftpoint
+        x: self.parent.x
+        y: self.parent.center_y
+    RightPoint:
+        id: rightpoint
+        x: self.parent.x + 29
+        y: self.parent.center_y
 
 <ElasticRectanglePlatform>:
-    elasticity: 1.2
+    elasticity: 1
     size: 30, 30
     canvas:
         Color:
@@ -44,25 +44,25 @@
         Rectangle:
             pos: self.pos
             size: self.size
-    TopLine:
-        id: topline
-        x: self.parent.center_x - 5
-        y: self.parent.center_y + 12
-    BotLine:
-        id: botline
-        x: self.parent.center_x - 5
+    TopPoint:
+        id: toppoint
+        x: self.parent.center_x
+        y: self.parent.center_y + 14
+    BotPoint:
+        id: botpoint
+        x: self.parent.center_x
         y: self.parent.center_y - 15
-    LeftLine:
-        id: leftline
-        x: self.parent.center_x - 15
-        y: self.parent.center_y + 5
-    RightLine:
-        id: rightline
-        x: self.parent.center_x + 12
-        y: self.parent.center_y + 5
+    LeftPoint:
+        id: leftpoint
+        x: self.parent.x
+        y: self.parent.center_y
+    RightPoint:
+        id: rightpoint
+        x: self.parent.x + 29
+        y: self.parent.center_y
 
 <Bumper>:
-    elasticity: 0.9
+    elasticity: 0.7
     size: 10, 10
     canvas:
         Color:
@@ -76,7 +76,7 @@
         y: self.parent.center_y - 1
 
 <ElasticBumper>:
-    elasticity: 1.2
+    elasticity: 1
     size: 10, 10
     canvas:
         Color:
@@ -90,7 +90,7 @@
         y: self.parent.center_y - 1
 
 <Paddle>:
-    elasticity: 1.3
+    elasticity: 1.2
     size: 200, 10
     canvas:
         Color:
@@ -119,42 +119,42 @@
     canvas:
         Color: 
             rgba: 1,0,0,0
-        Rectangle:
+        Ellipse:
             pos: self.pos
             size: self.size  
 
-<TopLine>:
-    size: 10, 3
+<TopPoint>:
+    size: 1, 1
     angle: 0
     canvas:
         Color:
             rgba: 0,1,1,0
-        Rectangle:
+        Ellipse:
             pos: self.pos
             size: self.size
 
-<BotLine>:
-    size: 10, 3
+<BotPoint>:
+    size: 1, 1
     angle: 180
     canvas:
         Color:
             rgba: 1,0,1,0
-        Rectangle:
+        Ellipse:
             pos: self.pos
             size: self.size
 
-<LeftLine>:
-    size: 3, -10
+<LeftPoint>:
+    size: 1, 1
     angle: 270
     canvas:
         Color:
             rgba: 1,1,0,0
-        Rectangle:
+        Ellipse:
             pos: self.pos
             size: self.size
 
-<RightLine>:
-    size: 3, -10
+<RightPoint>:
+    size: 1, 1
     angle: 90
     canvas:
         Color:
@@ -162,19 +162,20 @@
         Rectangle:
             pos: self.pos
             size: self.size
-        
-<Scene>:
-    marble: marblemarble
-    paddle: paddlepaddle
-    platforms: [paddlepaddle,bottomSquareOne,bottomSquareTwo,bottomSquareThree,bottomSquareFour,bottomSquareFive,bottomSquareSix,middleBumperOne,middleBumperTwo,topLeftOne,topLeftTwo,topLeftThree,topRightOne,topRightTwo,topRightThree,middleSquareOne,middleSquareTwo,middleSquareThree,topBumperOne,topBumperTwo,topBumperThree,topBumperFour]
 
-    Marble:
-        id: marblemarble
+# I acknowledge that this is not an ideal way of implementing new platforms to the app.
+<Scene>:
+    pinball: pinballobject
+    paddle: paddleobject
+    platforms: [paddleobject,bottomBumperOne, bottomBumperTwo, bottomSquareOne,bottomSquareTwo,bottomSquareThree,bottomSquareFour,bottomSquareFive,bottomSquareSix,middleBumperOne,middleBumperTwo,topLeftOne,topLeftTwo,topLeftThree,topRightOne,topRightTwo,topRightThree,middleSquareOne,middleSquareTwo,middleSquareThree,topBumperOne,topBumperTwo,topBumperThree,topBumperFour]
+
+    Pinball:
+        id: pinballobject
         x: self.parent.center_x
         top: self.parent.top-50
 
     Paddle:
-        id: paddlepaddle
+        id: paddleobject
         x: self.parent.center_x - 100
         y: self.parent.top - 700
 
@@ -241,6 +242,10 @@
         x: self.parent.center_x + 20
         y: self.parent.top - 260
 
+    Bumper:
+        id: bottomBumperOne
+        x: self.parent.x + 100
+        y: self.parent.top - 565
     RectanglePlatform:
         id: bottomSquareOne
         x: self.parent.x
@@ -265,3 +270,7 @@
         id: bottomSquareSix
         x: self.parent.width - 90
         y: self.parent.top - 550
+    Bumper:
+        id: bottomBumperTwo
+        x: self.parent.width - 110
+        y: self.parent.top - 565
