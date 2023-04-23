@@ -1,5 +1,6 @@
-import random
-from math import sqrt
+import operator
+operators = {"+": operator.add, "-": operator.sub, "*": operator.mul, "/": operator.truediv}   
 
-
-print(str(sqrt(9)))
+inputOp = input("")
+op = operators[inputOp]
+print(str(op(2, 3)))
