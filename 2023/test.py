@@ -1,30 +1,53 @@
-from search_algorithms import binary_search, linear_search
+from sorting_algorithms import bubble_sort, insertion_sort, merge_sort
+import random
 
-def search(array, value):
-    return(linear_search(array, value), binary_search(array, value))
+#tests:
+bArrays = [[1,3,7,9,15],
+           [1,3,9,7,15],
+           [5,4,3,2,1],
+           [36,15,28,2,495],
+           [],
+           ["b","f","c","d","a"],
+           [5],
+           [0,5,5,7,5,9,5,2],
+           [-1,7,0,2,-5]]
 
-a = [0, 1, 13, 27, 49, 456]
-b = [0, 2, 5, 7]
-c = ["a", 456, "search"]
-d = [-12, -7, 5, 9]
+iArrays = [[1,3,7,9,15],
+           [1,3,9,7,15],
+           [5,4,3,2,1],
+           [36,15,28,2,495],
+           [],
+           ["b","f","c","d","a"],
+           [5],
+           [0,5,5,7,5,9,5,2],
+           [-1,7,0,2,-5]]
 
-print(search(a,13))
-print(search(a,0))
-print(search(a,456))
-print(search(a,87))
-print(search(b,0))
-print(search(b,2))
-print(search(b,5))
-print(search(b,7))
-print(search(b,8))
-print(search(c, "a"))
-print(search(c, 456))
-print(search(c, "search"))
-print(search(c, "car"))
-print(search(c, 559))
-print(search(d, -12))
-print(search(d, -7))
-print(search(d, 5))
-print(search(d, 9))
-print(search(d, 10))
-print(search(d, -13))
+
+## testing:
+# for array in bArrays:
+#     bubble_sort(array)
+#     print(array)
+# print("")
+
+# for array in iArrays:
+#     insertion_sort(array)
+#     print(array)
+# print("")
+
+def create_array(numNums):
+    array = []
+    for n in range(numNums):
+        array.append(random.randrange(0, 1001))
+    return(array)
+
+def test(numNums):
+    bArray = []
+    iArray = []
+    tempArray = create_array(numNums)
+    for char in tempArray:
+        bArray.append(char)
+        iArray.append(char)
+    print("Bubble sort took: " + str(round(bubble_sort(bArray),3)) + "s")
+    print("Insertion sort took: " + str(round(insertion_sort(iArray),3)) + "s")
+
+test(50000)

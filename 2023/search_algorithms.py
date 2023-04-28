@@ -1,4 +1,4 @@
-a = [12, 15, 16, 19, 22, "f"]
+a = ["a","b","f","g","z"]
 
 def linear_search(array, value):
     for n in range(len(array)):
@@ -29,4 +29,4 @@ def binary_search(array, value, start_index = 0, end_index = None):
     
 
 if __name__ == "__main__":
-    print(binary_search(a, 1))
+    print(binary_search(a, "f"))
