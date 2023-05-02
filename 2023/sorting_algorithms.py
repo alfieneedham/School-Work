@@ -1,14 +1,10 @@
 import time
 from math import inf
 
-a = [5,4,3,2,1,0]
-b = [3465,568,345,568,4,457,6799,35]
-c = [1,2,4,6,8,9,19]
-d = [1,3,4,6,8,11,15]
+array = ["3456", "1234", "2367", "2345", "6789", "4567", "5467"]
 
 # The inputted array is sorted.
 def bubble_sort(array):
-    start = time.time()
     for passes in range(len(array)):
         madeSwap = False
         for comparisons in range(len(array)-passes-1):
@@ -17,13 +13,9 @@ def bubble_sort(array):
                 array[comparisons], array[comparisons+1] = array[comparisons+1], array[comparisons]
         if madeSwap == False:
             break
-    end = time.time()
-    delta = end - start
-    return(delta)
 
 # The inputted array is sorted.
 def insertion_sort(array):
-    start = time.time()
     for passes in range(len(array)-1):
         index = passes
         while index != -1:
@@ -32,9 +24,6 @@ def insertion_sort(array):
                 index -= 1
             else:
                 break
-    end = time.time()
-    delta = end - start
-    return(delta)
 
 # Returns the sorted array. Original array remains unchanged.
 def merge(arrayOne, arrayTwo):
@@ -50,6 +39,7 @@ def merge(arrayOne, arrayTwo):
             result.append(arrayTwo[pointerTwo])
             pointerTwo += 1
     return(result)
+
 def merge_sort(array):
     if len(array) <= 1:
         return(array)
@@ -57,8 +47,21 @@ def merge_sort(array):
     rightHalf = merge_sort(array[len(array)//2:])
     return(merge(leftHalf, rightHalf))
 
+def count_sort(array):
+    largestNum = None
+    for value in array:
+        if largestNum == None or value > largestNum:
+            largestNum = value
+    tally = [0]*(largestNum+1)
+    result = [0]*len(array)
+    for value in array:
+        tally[value] += 1
+    for i in range(1,len(tally)):
+        tally[i] += tally[i-1]
+    for value in array:
+        result[tally[value-1]] = value
+        tally[value-1] += 1
+    return(result)  
+
 if __name__ == "__main__":
-    print(b)
-    b=merge_sort(b)
-    print(b)
-    print(merge_sort(b))
+    pass
