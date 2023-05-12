@@ -120,7 +120,11 @@ class PriorityQueue():
             quit()
         tupleToAppend = (item, priority)
         self.queue.append(tupleToAppend)
-        print("Done")
+
+    def is_empty(self):
+        if len(self.queue) == 0:
+            return(True)
+        return(False)
 
 class NaivePriorityQueue(PriorityQueue):
 
@@ -140,8 +144,7 @@ class NaivePriorityQueue(PriorityQueue):
         return(itemToReturn)
 
     def get_queue(self):
-        return(self.queue)
-    
+        return(self.queue)  
 
 # * FINISH por favor
 class HeapPriorityQueue(PriorityQueue):
@@ -254,8 +257,18 @@ class HashTable():
 # t.insert(607)
 # print(t.table)
 
-g = Graph(5,2)
-print("")
-g.print_matrix()
-print("")
-g.print_list()
+# g = Graph(5,2)
+# print("")
+# g.print_matrix()
+# print("")
+# g.print_list()
+
+if __name__ == "__main__":
+
+    x = NaivePriorityQueue()
+    x.enqueue("abc",7)
+    x.enqueue("xyz",5)
+    x.enqueue("pqr",9)
+    print(x.dequeue())
+    print(x.dequeue())
+    print(x.dequeue())
